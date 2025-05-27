@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="header">
+    <h1>{{ survey.title }}</h1>
+</div>
+
+<form method="POST">
+    {% for question in survey.questions|from_json %}
+        <div class="question">
+            <p><strong>{{ loop.index }}. {{ question.text }}</strong></p>
+            
+            {% if question.type == 'text' %}
+                <input type="text" name="question_{{ loop.index0 }}" required>
+            
+            {% elif question.type == 'radio' %}
+                <div class="options">
+                    {% for option in question.options %}
+                        <div>
+                            <input type="radio" name="question_{{ loop.parent.index0 }}" value="{{ option }}" required>
+                            <label>{{ option }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            
+            {% elif question.type == 'checkbox' %}
+                <div class="options">
+                    {% for option in question.options %}
+                        <div>
+                            <input type="checkbox" name="question_{{ loop.parent.index0 }}" value="{{ option }}">
+                            <label>{{ option }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            
+            {% elif question.type == 'textarea' %}
+                <textarea name="question_{{ loop.index0 }}" rows="4" required></textarea>
+            {% endif %}
+        </div>
+    {% endfor %}
+    
+    <button type="submit">Отправить</button>
+</form>
+{% endblock %} 

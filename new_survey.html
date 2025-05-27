@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="header">
+    <h1>Создание нового опроса</h1>
+    <a href="{{ url_for('admin_surveys') }}"><button>Назад к списку опросов</button></a>
+</div>
+
+<form method="POST" id="surveyForm">
+    <div class="form-group">
+        <label for="title">Название опроса:</label>
+        <input type="text" id="title" name="title" required>
+    </div>
+
+    <div id="questions">
+        <div class="question">
+            <div class="form-group">
+                <label>Текст вопроса:</label>
+                <input type="text" name="questions[]" required>
+            </div>
+            <div class="form-group">
+                <label>Тип вопроса:</label>
+                <select name="question_types[]" onchange="toggleOptions(this)">
+                    <option value="text">Текстовый ответ</option>
+                    <option value="radio">Один из списка</option>
+                    <option value="checkbox">Несколько из списка</option>
+                    <option value="textarea">Развернутый ответ</option>
+                </select>
+            </div>
+            <div class="form-group options-group" style="display: none;">
+                <label>Варианты ответов (через запятую):</label>
+                <input type="text" name="options[]">
+            </div>
+        </div>
+    </div>
+
+    <button type="button" onclick="addQuestion()">Добавить вопрос</button>
+    <button type="submit">Создать опрос</button>
+</form>
+
+<script>
+function addQuestion() {
+    const questionsDiv = document.getElementById('questions');
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'question';
+    questionDiv.innerHTML = `
+        <div class="form-group">
+            <label>Текст вопроса:</label>
+            <input type="text" name="questions[]" required>
+        </div>
+        <div class="form-group">
+            <label>Тип вопроса:</label>
+            <select name="question_types[]" onchange="toggleOptions(this)">
+                <option value="text">Текстовый ответ</option>
+                <option value="radio">Один из списка</option>
+                <option value="checkbox">Несколько из списка</option>
+                <option value="textarea">Развернутый ответ</option>
+            </select>
+        </div>
+        <div class="form-group options-group" style="display: none;">
+            <label>Варианты ответов (через запятую):</label>
+            <input type="text" name="options[]">
+        </div>
+    `;
+    questionsDiv.appendChild(questionDiv);
+}
+
+function toggleOptions(select) {
+    const optionsGroup = select.parentElement.nextElementSibling;
+    if (select.value === 'radio' || select.value === 'checkbox') {
+        optionsGroup.style.display = 'block';
+    } else {
+        optionsGroup.style.display = 'none';
+    }
+}
+</script>
+{% endblock %} 

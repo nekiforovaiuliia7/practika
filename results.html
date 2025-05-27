@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="header">
+    <h1>Результаты опроса: {{ survey.title }}</h1>
+    <a href="{{ url_for('admin_surveys') }}"><button>Назад к списку опросов</button></a>
+</div>
+
+{% for graph in graphs %}
+    <div id="graph_{{ loop.index }}"></div>
+    <script>
+        var graphData = {{ graph|safe }};
+        Plotly.newPlot('graph_{{ loop.index }}', graphData.data, graphData.layout);
+    </script>
+{% endfor %}
+{% endblock %} 

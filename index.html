@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="header">
+    <h1>Доступные опросы</h1>
+    <div>
+        {% if current_user.is_authenticated %}
+            {% if current_user.is_admin %}
+                <a href="{{ url_for('admin_surveys') }}"><button>Управление опросами</button></a>
+            {% endif %}
+            <a href="{{ url_for('logout') }}"><button>Выйти</button></a>
+        {% else %}
+            <a href="{{ url_for('login') }}"><button>Войти</button></a>
+            <a href="{{ url_for('register') }}"><button>Регистрация</button></a>
+        {% endif %}
+    </div>
+</div>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+{% if current_user.is_authenticated %}
+    <ul class="survey-list">
+        {% for survey in surveys %}
+            <li class="survey-item">
+                <h3>{{ survey.title }}</h3>
+                <a href="{{ url_for('take_survey', survey_id=survey.id) }}">
+                    <button>Пройти опрос</button>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Пожалуйста, войдите в систему, чтобы пройти опросы.</p>
+{% endif %}
+{% endblock %} 
