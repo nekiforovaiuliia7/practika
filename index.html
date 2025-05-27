@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h1>Дневник путешествий</h1>
+    {% for travel in travels %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ travel.title }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ travel.location }} | {{ travel.date_posted.strftime('%d.%m.%Y') }} | <a href="{{ url_for('user_travels', username=travel.author.username) }}">{{ travel.author.username }}</a></h6>
+                {% if travel.image_filename %}
+                    <img src="{{ url_for('uploaded_file', filename=travel.image_filename) }}" class="img-fluid mb-2" style="max-width:300px;">
+                {% endif %}
+                <p class="card-text">{{ travel.description }}</p>
+                <ul>
+                    <li>Удобство: {{ travel.comfort }}</li>
+                    <li>Безопасность: {{ travel.safety }}</li>
+                    <li>Населенность: {{ travel.population }}</li>
+                    <li>Растительность: {{ travel.vegetation }}</li>
+                </ul>
+            </div>
+        </div>
+    {% else %}
+        <p>Путешествий пока нет.</p>
+    {% endfor %}
+</div>
+{% endblock %} 

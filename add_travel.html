@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Добавить путешествие</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">{{ form.title.label }} {{ form.title(class_='form-control') }}</div>
+        <div class="mb-3">{{ form.description.label }} {{ form.description(class_='form-control') }}</div>
+        <div class="mb-3">{{ form.location.label }} {{ form.location(class_='form-control') }}</div>
+        <div class="mb-3">{{ form.image.label }} {{ form.image(class_='form-control') }}</div>
+        <div class="mb-3">{{ form.comfort.label }} {{ form.comfort(class_='form-control') }}</div>
+        <div class="mb-3">{{ form.safety.label }} {{ form.safety(class_='form-control') }}</div>
+        <div class="mb-3">{{ form.population.label }} {{ form.population(class_='form-control') }}</div>
+        <div class="mb-3">{{ form.vegetation.label }} {{ form.vegetation(class_='form-control') }}</div>
+        <button type="submit" class="btn btn-success">Добавить</button>
+    </form>
+</div>
+{% endblock %} 
